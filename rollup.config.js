@@ -46,8 +46,9 @@ const commonJsConfig = {
         // Without this mapping the transformed import `import {jsx as _jsx} from 'react/jsx-runtime'` will fail.
         'react/jsx-runtime': ['jsx', 'jsxs', 'Fragment'],
         'react/jsx-dev-runtime': ['jsxDEV', 'Fragment'],
-        'node_modules/react/index.js': ['createElement', 'Component', 'useRef', 'useEffect', 'useState', 'memo'], // 'createElement' - resolves svg imports problem, 'Comsponent' - react router dom
-        'node_modules/react-is/index.js': ['isValidElementType'] // resolves react router dom imports problem
+        'node_modules/react-dom/index.js': ['unstable_batchedUpdates'],
+        'node_modules/react/index.js': ['createElement', 'Component', 'useRef', 'useEffect', 'useState', 'useReducer', 'useDebugValue', 'useContext', 'useMemo', 'memo', 'useLayoutEffect'], // 'createElement' - resolves svg imports problem, 'Comsponent' - react router dom
+        'node_modules/react-is/index.js': ['isValidElementType', 'isContextConsumer'] // resolves react router dom imports problem
     },
 }
 
@@ -69,7 +70,8 @@ const aliases = {
         components: path.resolve(__dirname, './src/components'),
         ui: path.resolve(__dirname, './src/ui'),
         routes: path.resolve(__dirname, './src/routes'),
-        utils: path.resolve(__dirname, './src/utils')
+        utils: path.resolve(__dirname, './src/utils'),
+        store: path.resolve(__dirname, './src/store')
     }
 }
 

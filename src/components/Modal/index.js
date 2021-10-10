@@ -1,4 +1,5 @@
-import { useState, useRef } from 'react'
+import { useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import ReactDOM from "react-dom";
 import classNames from 'classnames';
 
@@ -22,15 +23,19 @@ const getModalContentByType = (type, props) => {
     }
 }
 
-export default ({ isVisible, closeModal, type, errorText }) => {
+export default ({ closeModal }) => {
     const modalRef = useRef(null);
+    const modalState = useSelector(state => state.modal)
+    const dispatch = useDispatch()
 
-    useOutsideClickHandler(modalRef, closeModal)
+    useOutsideClickHandler(modalRef, () => {
+        dispatch({ type: 'closeModal' })
+    })
 
     return ReactDOM.createPortal(
-        <div className={classNames(css.modal, { [css.visible]: isVisible })}>
+        <div className={classNames(css.modal, { [css.visible]: modalState.isVisible })}>
             <div className={css.modalContent} ref={modalRef}>
-                {getModalContentByType(type, { closeModal, isVisible, errorText })}
+                {getModalContentByType(modalState.modalType, { closeModal, isVisible: modalState.isVisible, errorText: modalState.errorText })}
             </div>
         </div>,
         element
