@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
+import { useLocation } from "react-router-dom";
 
 import { OPEN_MODAL } from "store/action"
 
@@ -9,7 +10,12 @@ import css from './styles.css'
 
 const Layout = ({ children, title, withSettingsButton, withBuildButton, onBuildButtonClick }) => (
     <div className={css.layout}>
-        <Header title={title} withSettingsButton={withSettingsButton} withBuildButton={withBuildButton} onBuildButtonClick={onBuildButtonClick} />
+        <Header
+            title={title}
+            withSettingsButton={withSettingsButton}
+            withBuildButton={withBuildButton}
+            onBuildButtonClick={onBuildButtonClick}
+        />
         <div className={css.layoutContent}>
             {children}
         </div>
@@ -19,10 +25,10 @@ const Layout = ({ children, title, withSettingsButton, withBuildButton, onBuildB
 
 export default Layout
 
-export const ConnectedToStoreLayout = ({ children, title, withSettingsButton, withBuildButton }) => {
-    const state = useSelector(state => state)
+export const ConnectedToStoreLayout = ({ children }) => {
+    const state = useSelector(state => state.ci)
     const dispatch = useDispatch()
-
+    const location = useLocation()
     const onBuildButtonClick = () => dispatch({
         type: OPEN_MODAL, payload: {
             isVisible: true,
@@ -30,20 +36,17 @@ export const ConnectedToStoreLayout = ({ children, title, withSettingsButton, wi
         }
     })
 
-    console.log(state)
+    const isMainPage = location.pathname === '/'
+    const isBuildButtonVisible = Boolean(state.builds?.items?.length && isMainPage)
 
     return (
-        <div className={css.layout}>
-            <Header
-                title={title}
-                withSettingsButton={withSettingsButton}
-                withBuildButton={withBuildButton}
-                onBuildButtonClick={onBuildButtonClick}
-            />
-            <div className={css.layoutContent}>
-                {children}
-            </div>
-            <Footer />
-        </div>
+        <Layout
+            title={state.repository}
+            onBuildButtonClick={onBuildButtonClick}
+            withSettingsButton={isMainPage}
+            withBuildButton={isBuildButtonVisible}
+        >
+            {children}
+        </Layout>
     )
 }

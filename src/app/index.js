@@ -1,33 +1,22 @@
 import { Route } from "react-router-dom";
+import { useSelector } from 'react-redux'
 
-import { getValues } from 'utils'
+// import { getValues } from 'utils'
 
 import { ConnectedToStoreLayout } from 'components/Layout'
 
 import MainRouteComponent from "routes/MainRouteComponent";
-import SettingsRouteComponent from "routes/SettingsRouteComponent";
+import { ConnectedToStoreSettings } from "routes/SettingsRouteComponent";
 import { ConnectedToStoreModal } from 'components/Modal';
 
-const App = ({ location: { pathname } }) => {
-    const { repository, builds = { items: [] } } = getValues()
-    const isMainPage = pathname === '/'
-    const isBuildButtonVisible = Boolean(builds?.items?.length && isMainPage)
-    const layputTitle = isMainPage && repository || 'School CI server'
-
-    const openErrorModal = (err) => {
-        setErrorText(err)
-        setModalType('error')
-        setModalVisibility(true)
-    }
+const App = () => {
+    // const { repository, builds = { items: [] } } = getValues()
+    const builds = useSelector(state => state.ci.builds)
 
     return (
-        <ConnectedToStoreLayout
-            title={layputTitle}
-            withSettingsButton={isMainPage}
-            withBuildButton={isBuildButtonVisible}
-        >
-            <Route exact path="/" render={(props) => <MainRouteComponent {...props} buildsData={builds} />} />
-            <Route path="/settings" render={(props) => <SettingsRouteComponent {...props} onSyncError={openErrorModal} />} />
+        <ConnectedToStoreLayout>
+            <Route exact path="/" render={() => <MainRouteComponent buildsData={builds} />} />
+            <Route path="/settings" component={ConnectedToStoreSettings} />
             <ConnectedToStoreModal />
         </ConnectedToStoreLayout >
     )

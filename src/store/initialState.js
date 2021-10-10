@@ -4,12 +4,19 @@ export const initialModalState = {
     errorText: '',
 }
 
-
-export const initialState = {
-    modal: initialModalState,
-    ci: {
-        name: 'School CI server'
+const initialCiStore = {
+    repository: 'School CI server',
+    commands: '',
+    branch: '',
+    interval: '',
+    builds: {
+        items: []
     }
 }
 
+
+export const initialState = {
+    modal: initialModalState,
+    ci: initialCiStore
+}
 
