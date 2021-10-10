@@ -1,0 +1,12 @@
+.title {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #FF3333
+}
+
+.description {
+    font-size: 13px;
+    line-height: 20px;
+}

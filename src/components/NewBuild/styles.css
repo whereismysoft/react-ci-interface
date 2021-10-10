@@ -1,0 +1,22 @@
+.title {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.formButtons {
+    display: flex;
+    width: 194px;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+
+@media screen and (max-width: 640px) {
+    .formButtons {
+        flex-direction: column;
+        width: 100%;
+        height: calc((36*2px) + 12px);
+    }
+}

@@ -1,0 +1,49 @@
+.header {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.headerTitle {
+    font-size: 24px;
+    line-height: 28px;
+    color: #7F8285;
+    word-break: break-word;
+    max-width: 350px;
+    padding-right: 8px;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 640px) {
+    .headerTitle {
+        max-width: calc(100% - 64px);
+    }
+}
+
+.headerTitle.titleBold {
+    color: #000000;
+    font-weight: bold;
+}
+
+.headerButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 132px;
+}
+
+@media screen and (max-width: 640px) {
+    .headerButtons {
+        width: 64px;
+    }
+}
+
+.spaceBetweenButtons {
+    flex: 1
+}
+

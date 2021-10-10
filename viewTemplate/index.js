@@ -7,7 +7,8 @@ const template = async ({
     publicPath,
     title
 }) => {
-    const appRoot = '<div id="root"></div>'
+    const appRoot = '<div id="app-root"></div>'
+    const modalRoot = '<div id="app-modal"></div>'
     const defaultMeta = `
         <meta name="viewport" content="width=device-width, initial-scale=1">
     `
@@ -42,6 +43,7 @@ const template = async ({
       ${links}
     </head>
     <body>
+      ${modalRoot}
       ${appRoot}
       ${scripts}
     </body>

@@ -1,0 +1,23 @@
+.failedIcon path{
+    fill: #FF3333;
+}
+
+
+.timerIcon path,
+.calendarIcon path,
+.commitIcon path,
+.userIcon path {
+    fill: #7F8285
+}
+
+.statusIcon {
+    width: 22px;
+    height: 22px;
+}
+
+@media screen and (max-width: 640px) {
+    .statusIcon {
+        width: 14px;
+        height: 14px;
+    }
+}

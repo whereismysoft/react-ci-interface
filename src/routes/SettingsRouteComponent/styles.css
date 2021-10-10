@@ -1,0 +1,52 @@
+.title {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 700;
+}
+
+.description {
+    font-size: 13px;
+    line-height: 18px;
+    color: #7F8285
+}
+
+.descriptionMargin {
+    margin-top: 8px;
+    margin-bottom: 22px;
+}
+
+.formFieldWrapper {
+    width: 100%;
+}
+
+.formFieldWrapper + .formFieldWrapper {
+    margin-top: 18px;
+}
+
+.rowFormFieldWrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.rowFormFieldWrapper > span {
+    margin-left: 8px;
+    font-size: 13px;
+    line-height: 18px;
+    color: #434445;
+}
+
+.formButtons {
+    display: flex;
+    width: 163px;
+    justify-content: space-between;
+    margin-top: 24px;
+}
+
+@media screen and (max-width: 640px) {
+    .formButtons {
+        flex-direction: column;
+        width: 100%;
+        height: calc((36*2px) + 12px);
+    }
+}

@@ -6,93 +6,94 @@ import postcss from 'rollup-plugin-postcss';
 import serve from 'rollup-plugin-serve'
 import html from '@rollup/plugin-html';
 import { terser } from "rollup-plugin-terser";
+import svgr from '@svgr/rollup'
+import alias from '@rollup/plugin-alias';
 
 import template from './viewTemplate/index'
 
+const path = require('path')
+
 const env = process.env.NODE_ENV;
 const isProduction = env === 'production'
+const bundlePath = './dist';
+
+// configs
+
+const outputConfig = {
+    name: 'bundle',
+    sourcemap: true,
+    file: `${bundlePath}/index.js`,
+    format: 'iife',
+}
+
+const babelConfig = {
+    // exclude: 'node_modules/**',
+    presets: [
+        ['@babel/preset-react', { "runtime": "automatic" }]
+    ],
+    babelHelpers: 'bundled',
+}
+
+const nodeResolveConfig = {
+    extensions: [".js"],
+    browser: true,
+}
+
+const commonJsConfig = {
+    include: 'node_modules/**',
+    namedExports: {
+        // This is needed because `react/jsx-runtime` exports `jsx` on the module export.
+        // Without this mapping the transformed import `import {jsx as _jsx} from 'react/jsx-runtime'` will fail.
+        'react/jsx-runtime': ['jsx', 'jsxs', 'Fragment'],
+        'react/jsx-dev-runtime': ['jsxDEV', 'Fragment'],
+        'node_modules/react/index.js': ['createElement', 'Component', 'useRef', 'useEffect', 'useState', 'memo'], // 'createElement' - resolves svg imports problem, 'Comsponent' - react router dom
+        'node_modules/react-is/index.js': ['isValidElementType'] // resolves react router dom imports problem
+    },
+}
+
+const postCssConfig = {
+    extract: false,
+    modules: true,
+    // use: ['sass'],
+}
+
+const minificationConfig = {
+    toplevel: true,
+    mangle: true,
+    compress: true
+}
+
+const aliases = {
+    entries: {
+        icons: path.resolve(__dirname, './src/icons'),
+        components: path.resolve(__dirname, './src/components'),
+        ui: path.resolve(__dirname, './src/ui'),
+        routes: path.resolve(__dirname, './src/routes'),
+        utils: path.resolve(__dirname, './src/utils')
+    }
+}
+
+const devServerConfig = {
+    contentBase: bundlePath,
+    openPage: '/',
+    open: true,
+    port: 8080,
+    historyApiFallback: { index: 'index.html' },
+}
 
 export default {
     input: './src/index.js',
-    output: [
-        {
-            name: 'bundle',
-            sourcemap: true,
-            file: './dist/index.js',
-            format: 'iife',
-        },
-    ],
+    output: outputConfig,
     plugins: [
-        nodeResolve({
-            extensions: [".js"],
-            browser: true,
-        }),
+        svgr(),
         replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
-        babel({
-            // exclude: 'node_modules/**',
-            presets: [['@babel/preset-react', {
-                "runtime": "automatic"
-            }]],
-            babelHelpers: 'bundled',
-        }),
-        commonjs({
-            include: 'node_modules/**',
-            namedExports: {
-                // This is needed because `react/jsx-runtime` exports `jsx` on the module export.
-                // Without this mapping the transformed import `import {jsx as _jsx} from 'react/jsx-runtime'` will fail.
-                'react/jsx-runtime': ['jsx', 'jsxs', 'Fragment'],
-                'react/jsx-dev-runtime': ['jsxDEV', 'Fragment'],
-            },
-        }),
-        postcss({
-            extract: false,
-            modules: true,
-            // use: ['sass'],
-        }),
-        isProduction && terser({
-            toplevel: true,
-            mangle: true,
-            compress: true
-        }), // uglify-es is no longer maintained and uglify-js does not support ES6+.
+        babel(babelConfig),
+        nodeResolve(nodeResolveConfig),
+        commonjs(commonJsConfig),
+        postcss(postCssConfig),
+        alias(aliases),
+        isProduction && terser(minificationConfig), // uglify-es is no longer maintained and uglify-js does not support ES6+.
         html({ template, title: 'ci interface' }),
-        !isProduction && serve({ contentBase: 'dist', openPage: '/', open: true, port: 8080, })
+        !isProduction && serve(devServerConfig)
     ],
-    // external: ['react', 'react-dom', 'prop-types', 'styled-components'],
 };
-
-// import { babel } from '@rollup/plugin-babel';
-// import commonjs from 'rollup-plugin-commonjs';
-// import { nodeResolve } from '@rollup/plugin-node-resolve';
-// import replace from '@rollup/plugin-replace';
-// import postcss from 'rollup-plugin-postcss';
-// // import uglify from 'rollup-plugin-uglify';
-
-// const env = process.env.NODE_ENV;
-
-// export default {
-//     input: './src/index.js',
-//     output: {
-//         name: 'bundle',
-//         sourcemap: true,
-//         file: './dist/index.js',
-//         format: 'iife',
-//         // globals: { react: 'React', 'react-dom': 'ReactDom' },
-//     },
-//     format: 'iife',
-//     plugins: [
-//         nodeResolve(),
-//         replace({ 'process.env.NODE_ENV': JSON.stringify(env) }),
-//         commonjs({ include: 'node_modules/**' }),
-//         babel({
-//             exclude: 'node_modules/**',
-//             presets: ['@babel/preset-react'],
-//             babelHelpers: 'bundled'
-//         }),
-//         postcss({
-//             extract: false,
-//             modules: true,
-//             // use: ['sass'],
-//         }),
-//         // env === 'production' && uglify()
-//     ]
-// };

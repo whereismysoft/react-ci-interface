@@ -1,0 +1,167 @@
+.mainPageBlock {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.centredInfo {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.infoText {
+    line-height: 16px;
+    font-size: 13px;
+    max-width: 264px;
+    text-align: center;
+}
+
+.infoTextMargin {
+    margin-top: 32px;
+    margin-bottom: 24px;
+}
+
+.buildsBlock {
+    width: 100%;
+}
+
+.builds {
+    display: flex;
+    flex-direction: column;
+}
+
+.buildRow {
+    display: flex;
+    padding: 12px 24px;
+    box-shadow: 0 1px 1px 0 rgba(67, 68, 69, 0.3), 0 0 1px 0 rgba(67, 68, 69, 0.3);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.buildRowContent {
+    display: flex;
+    flex: 1;
+}
+
+
+@media screen and (max-width: 640px) {
+    .buildRowContent {
+        flex-direction: column;
+        margin-left: 8px;
+    }
+}
+
+
+.buildDescription {
+    flex: 1;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 640px) {
+    .buildDescription {
+        margin-left: 0;
+    }
+}
+
+.buildHeader {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 640px) {
+    .buildHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.id {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 640px) {
+    .id {
+        margin-bottom: 8px;
+        font-size: 16px;
+        line-height: 16px;
+    }
+}
+
+
+.failed {
+    color:#FF3333;
+}
+
+.pending {
+    color:#FF9A00;
+}
+
+.success {
+    color:#00B341;
+}
+
+.buildTitle {
+    font-size: 15px;
+    line-height: 20px;
+}
+
+.id + .buildTitle {
+    margin-left: 4px;
+}
+
+.buildCommit {
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.buildHeader + .buildCommit {
+    margin-top: 8px;
+}
+
+.commitHash {
+    color: #7F8285
+}
+
+.authorIcon {
+    margin-left: 10px;
+}
+
+.commitTime {
+    color: #7F8285;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media screen and (max-width: 640px) {
+    .commitTime {
+        margin-top: 8px;
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .commitTimeInfo + .commitTimeInfo {
+        margin-left: 8px;
+    }
+}
+
+.commitTimeInfo {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    line-height: 16px;
+}
+
+.commitTimeIcon {
+    margin-right: 4px;
+}
+
+.statusIcon {
+    width: 22px;
+    height: 22px;
+}
