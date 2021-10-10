@@ -1,8 +1,15 @@
+export const initialModalState = {
+    isVisible: false,
+    modalType: '',
+    errorText: '',
+}
+
+
 export const initialState = {
-    modal: {
-        isVisible: false,
-        modalType: '',
-        errorText: '',
+    modal: initialModalState,
+    ci: {
+        name: 'School CI server'
     }
 }
+
 

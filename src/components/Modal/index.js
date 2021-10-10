@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import ReactDOM from "react-dom";
 import classNames from 'classnames';
 
+import { CLOSE_MODAL } from "store/action"
 import { useOutsideClickHandler } from 'utils'
 
 import NewBuild from 'components/NewBuild';
@@ -23,21 +24,32 @@ const getModalContentByType = (type, props) => {
     }
 }
 
-export default ({ closeModal }) => {
-    const modalRef = useRef(null);
-    const modalState = useSelector(state => state.modal)
-    const dispatch = useDispatch()
+const Modal = ({ closeModal, isVisible, errorText, type }) => {
+    const modalRef = useRef(null)
 
-    useOutsideClickHandler(modalRef, () => {
-        dispatch({ type: 'closeModal' })
-    })
+    useOutsideClickHandler(modalRef, closeModal)
 
     return ReactDOM.createPortal(
-        <div className={classNames(css.modal, { [css.visible]: modalState.isVisible })}>
+        <div className={classNames(css.modal, { [css.visible]: isVisible })}>
             <div className={css.modalContent} ref={modalRef}>
-                {getModalContentByType(modalState.modalType, { closeModal, isVisible: modalState.isVisible, errorText: modalState.errorText })}
+                {getModalContentByType(type, { closeModal, isVisible, errorText })}
             </div>
         </div>,
         element
     );
 }
+
+export default Modal
+
+export const ConnectedToStoreModal = () => {
+    const { modalType, isVisible, errorText } = useSelector(state => state.modal)
+
+    const closeModal = () => {
+        dispatch({ type: CLOSE_MODAL })
+    }
+    const dispatch = useDispatch()
+
+    return <Modal closeModal={closeModal} isVisible={isVisible} errorText={errorText} type={modalType} />
+
+}
+
